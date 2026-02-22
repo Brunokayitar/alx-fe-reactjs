@@ -1,4 +1,4 @@
-export const MainContent = () => {
+const MainContent = () => {
   return(
     <main>
        <p>I love to visit New York, Paris, and Tokyo.</p>
@@ -6,3 +6,4 @@ export const MainContent = () => {
   );
 }
 
+export default MainContent;
