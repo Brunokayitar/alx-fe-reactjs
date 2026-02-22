@@ -1,13 +1,13 @@
-import WelcomeMessage from './components/WelcomeMessage'
-
+import WelcomeMessage from './components/WelcomeMessage.jsx'
 function App() {
   
-
   return (
+     <>
+        <WelcomeMessage />
+     
+     </>
 
-      < WelcomeMessage />
-      
-  )
+  );
 }
 
 export default App
