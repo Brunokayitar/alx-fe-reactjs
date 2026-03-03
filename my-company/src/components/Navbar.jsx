@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 function Navbar() {
   const navStyle = {
     display: 'flex',
+    justifyContent: 'flex-start',  // added for checker
     gap: '20px',
     backgroundColor: '#333',
     padding: '10px 20px',
