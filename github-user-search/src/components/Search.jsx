@@ -12,26 +12,43 @@ const Search = () => {
   const [error, setError] = useState(null);
   const [page, setPage] = useState(1);
   const [hasMore, setHasMore] = useState(false);
+  const [totalCount, setTotalCount] = useState(0);
+  const [currentQuery, setCurrentQuery] = useState(null);
 
   const handleInputChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
+  const performSearch = async (searchData, pageNum = 1, append = false) => {
     setLoading(true);
     setError(null);
-    setUsers([]);
-    setPage(1);
-
     try {
-      const results = await searchUsers(formData);
-      setUsers(results);
-      setHasMore(results.length === 30); // GitHub returns max 30 per page, we assume more if exactly 30
+      const data = await searchUsers({ ...searchData, page: pageNum });
+      if (append) {
+        setUsers(prev => [...prev, ...data.items]);
+      } else {
+        setUsers(data.items);
+      }
+      setTotalCount(data.total_count);
+      const totalPages = Math.ceil(data.total_count / 30);
+      setHasMore(pageNum < totalPages);
+      setPage(pageNum);
+      setCurrentQuery(searchData);
     } catch (err) {
       setError('Looks like we cant find the user');
     } finally {
       setLoading(false);
+    }
+  };
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    performSearch(formData, 1, false);
+  };
+
+  const handleLoadMore = () => {
+    if (currentQuery) {
+      performSearch(currentQuery, page + 1, true);
     }
   };
 
@@ -99,24 +116,38 @@ const Search = () => {
       {error && <p className="text-center text-red-500">{error}</p>}
 
       {users.length > 0 && (
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {users.map(user => (
-            <div key={user.id} className="bg-white rounded-lg shadow-md p-6">
-              <img src={user.avatar_url} alt={user.login} className="w-24 h-24 rounded-full mx-auto mb-4" />
-              <h2 className="text-xl font-bold text-center mb-2">{user.login}</h2>
-              {user.location && <p className="text-gray-600 text-center">üìç {user.location}</p>}
-              <p className="text-gray-600 text-center">üì¶ Repos: {user.public_repos || 'N/A'}</p>
-              <a
-                href={user.html_url}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="block text-center mt-4 text-blue-500 hover:underline"
+        <>
+          <p className="mb-4 text-gray-600">Found {totalCount} users</p>
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            {users.map(user => (
+              <div key={user.id} className="bg-white rounded-lg shadow-md p-6">
+                <img src={user.avatar_url} alt={user.login} className="w-24 h-24 rounded-full mx-auto mb-4" />
+                <h2 className="text-xl font-bold text-center mb-2">{user.login}</h2>
+                {user.location && <p className="text-gray-600 text-center">Ì≥ç {user.location}</p>}
+                <p className="text-gray-600 text-center">Ì≥¶ Repos: {user.public_repos || 'N/A'}</p>
+                <a
+                  href={user.html_url}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="block text-center mt-4 text-blue-500 hover:underline"
+                >
+                  View Profile
+                </a>
+              </div>
+            ))}
+          </div>
+          {hasMore && (
+            <div className="text-center mt-6">
+              <button
+                onClick={handleLoadMore}
+                className="bg-gray-500 hover:bg-gray-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
+                disabled={loading}
               >
-                View Profile
-              </a>
+                Load More
+              </button>
             </div>
-          ))}
-        </div>
+          )}
+        </>
       )}
     </div>
   );

@@ -2,22 +2,21 @@ import axios from 'axios';
 
 const GITHUB_API_BASE = 'https://api.github.com';
 
-// Basic user fetch by username
+// Basic user fetch by username (optional, may be used elsewhere)
 export const fetchUserData = async (username) => {
   const response = await axios.get(`${GITHUB_API_BASE}/users/${username}`);
   return response.data;
 };
 
-// Advanced search with query parameters
-export const searchUsers = async ({ username, location, minRepos }) => {
-  let query = username ? `${username}` : '';
-  if (location) {
-    query += `+location:${location}`;
-  }
-  if (minRepos) {
-    query += `+repos:>${minRepos}`;
-  }
-  const url = `${GITHUB_API_BASE}/search/users?q=${encodeURIComponent(query)}`;
+// Advanced search with query parameters (supports pagination)
+export const searchUsers = async ({ username, location, minRepos, page = 1, perPage = 30 }) => {
+  let query = '';
+  if (username) query += username;
+  if (location) query += `+location:${location}`;
+  if (minRepos) query += `+repos:>${minRepos}`;
+  // If no criteria, default to searching all users (type:user)
+  if (!query) query = 'type:user';
+  const url = `${GITHUB_API_BASE}/search/users?q=${encodeURIComponent(query)}&page=${page}&per_page=${perPage}`;
   const response = await axios.get(url);
-  return response.data.items; // returns array of user objects
+  return response.data; // returns { total_count, items, incomplete_results }
 };
