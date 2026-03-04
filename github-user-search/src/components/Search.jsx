@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { searchUsers } from '../services/githubService';
+import { fetchUserData, searchUsers } from '../services/githubService';
 
 const Search = () => {
   const [formData, setFormData] = useState({
@@ -23,14 +23,28 @@ const Search = () => {
     setLoading(true);
     setError(null);
     try {
-      const data = await searchUsers({ ...searchData, page: pageNum });
+      // Determine which API function to use
+      const { username, location, minRepos } = searchData;
+      let data;
+      if (location || minRepos) {
+        // Advanced search: use searchUsers
+        data = await searchUsers({ ...searchData, page: pageNum });
+      } else if (username) {
+        // Single username: use fetchUserData
+        const userData = await fetchUserData(username);
+        data = { items: [userData], total_count: 1 };
+      } else {
+        // No criteria: empty results
+        data = { items: [], total_count: 0 };
+      }
+
       if (append) {
         setUsers(prev => [...prev, ...data.items]);
       } else {
         setUsers(data.items);
       }
-      setTotalCount(data.total_count);
-      const totalPages = Math.ceil(data.total_count / 30);
+      setTotalCount(data.total_count || 0);
+      const totalPages = data.total_count ? Math.ceil(data.total_count / 30) : 1;
       setHasMore(pageNum < totalPages);
       setPage(pageNum);
       setCurrentQuery(searchData);
@@ -117,7 +131,7 @@ const Search = () => {
 
       {users.length > 0 && (
         <>
-          <p className="mb-4 text-gray-600">Found {totalCount} users</p>
+          <p className="mb-4 text-gray-600">Found {totalCount} user(s)</p>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             {users.map(user => (
               <div key={user.id} className="bg-white rounded-lg shadow-md p-6">
