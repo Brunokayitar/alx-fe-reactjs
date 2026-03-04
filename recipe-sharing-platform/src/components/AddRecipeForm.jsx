@@ -100,7 +100,7 @@ const AddRecipeForm = () => {
             className={`shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline ${
               errors.instructions ? 'border-red-500' : ''
             }`}
-            placeholder="Describe how to prepare the recipe..."
+            placeholder="Describe the preparation steps..."
           />
           {errors.instructions && <p className="text-red-500 text-xs italic mt-1">{errors.instructions}</p>}
         </div>
