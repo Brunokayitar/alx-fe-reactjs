@@ -3,18 +3,63 @@
     "id": 1,
     "title": "Spaghetti Carbonara",
     "summary": "A classic Italian pasta dish with eggs, cheese, bacon, and black pepper.",
-    "image": "https://via.placeholder.com/150"
+    "image": "https://via.placeholder.com/150",
+    "ingredients": [
+      "200g spaghetti",
+      "100g pancetta or bacon",
+      "2 large eggs",
+      "50g grated Parmesan cheese",
+      "2 cloves garlic",
+      "Salt and black pepper"
+    ],
+    "instructions": [
+      "Cook spaghetti in salted water according to package instructions.",
+      "Fry pancetta with garlic until crisp.",
+      "Beat eggs with Parmesan and pepper.",
+      "Drain pasta, add to pan with pancetta, remove from heat.",
+      "Stir in egg mixture quickly, serve immediately."
+    ]
   },
   {
     "id": 2,
     "title": "Chicken Tikka Masala",
     "summary": "Chunks of grilled chicken (tikka) cooked in a smooth buttery & creamy tomato based gravy.",
-    "image": "https://via.placeholder.com/150"
+    "image": "https://via.placeholder.com/150",
+    "ingredients": [
+      "500g chicken breast",
+      "1 cup yogurt",
+      "2 tbsp tikka masala spice",
+      "1 onion",
+      "2 tomatoes",
+      "1/2 cup cream",
+      "Butter, garlic, ginger"
+    ],
+    "instructions": [
+      "Marinate chicken in yogurt and spices for 1 hour.",
+      "Grill or bake chicken until cooked.",
+      "Sauté onion, garlic, ginger, add tomatoes and cook down.",
+      "Add cream and butter, then add chicken.",
+      "Simmer for 10 minutes, serve with rice or naan."
+    ]
   },
   {
     "id": 3,
     "title": "Margherita Pizza",
     "summary": "Fresh pizza with tomato sauce, mozzarella, and basil.",
-    "image": "https://via.placeholder.com/150"
+    "image": "https://via.placeholder.com/150",
+    "ingredients": [
+      "Pizza dough",
+      "1/2 cup tomato sauce",
+      "200g fresh mozzarella",
+      "Fresh basil leaves",
+      "Olive oil, salt"
+    ],
+    "instructions": [
+      "Preheat oven to 250°C.",
+      "Roll out dough, spread tomato sauce.",
+      "Tear mozzarella and scatter over sauce.",
+      "Bake 10-12 minutes until crust golden.",
+      "Top with basil leaves and drizzle olive oil."
+    ]
   }
 ]
