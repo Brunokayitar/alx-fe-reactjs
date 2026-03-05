@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import AddTodoForm from './AddTodoForm';
 
 const TodoList = () => {
   const [todos, setTodos] = useState([
@@ -6,18 +7,14 @@ const TodoList = () => {
     { id: 2, text: 'Write tests', completed: false },
     { id: 3, text: 'Deploy app', completed: false },
   ]);
-  const [inputValue, setInputValue] = useState('');
 
-  const addTodo = (e) => {
-    e.preventDefault();
-    if (!inputValue.trim()) return;
+  const addTodo = (text) => {
     const newTodo = {
       id: Date.now(),
-      text: inputValue,
+      text,
       completed: false,
     };
     setTodos([...todos, newTodo]);
-    setInputValue('');
   };
 
   const toggleTodo = (id) => {
@@ -33,17 +30,7 @@ const TodoList = () => {
   return (
     <div style={{ padding: '20px', maxWidth: '400px', margin: '0 auto' }}>
       <h1>Todo List</h1>
-      <form onSubmit={addTodo}>
-        <input
-          type="text"
-          value={inputValue}
-          onChange={(e) => setInputValue(e.target.value)}
-          placeholder="Add a new todo"
-          data-testid="todo-input"
-          style={{ padding: '8px', width: '70%', marginRight: '10px' }}
-        />
-        <button type="submit" data-testid="add-button">Add</button>
-      </form>
+      <AddTodoForm onAdd={addTodo} />
       <ul style={{ listStyle: 'none', padding: 0 }}>
         {todos.map(todo => (
           <li
