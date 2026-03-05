@@ -1,29 +1,19 @@
 import { useState } from 'react';
 
 const RegistrationForm = () => {
-  const [formData, setFormData] = useState({
-    username: '',
-    email: '',
-    password: ''
-  });
+  const [username, setUsername] = useState('');
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
   const [errors, setErrors] = useState({});
   const [submitted, setSubmitted] = useState(false);
 
-  const handleChange = (e) => {
-    setFormData({ ...formData, [e.target.name]: e.target.value });
-    // Clear error for this field when user types
-    if (errors[e.target.name]) {
-      setErrors({ ...errors, [e.target.name]: null });
-    }
-  };
-
   const validate = () => {
     const newErrors = {};
-    if (!formData.username.trim()) newErrors.username = 'Username is required';
-    if (!formData.email.trim()) newErrors.email = 'Email is required';
-    else if (!/\S+@\S+\.\S+/.test(formData.email)) newErrors.email = 'Email is invalid';
-    if (!formData.password.trim()) newErrors.password = 'Password is required';
-    else if (formData.password.length < 6) newErrors.password = 'Password must be at least 6 characters';
+    if (!username.trim()) newErrors.username = 'Username is required';
+    if (!email.trim()) newErrors.email = 'Email is required';
+    else if (!/\S+@\S+\.\S+/.test(email)) newErrors.email = 'Email is invalid';
+    if (!password.trim()) newErrors.password = 'Password is required';
+    else if (password.length < 6) newErrors.password = 'Password must be at least 6 characters';
     return newErrors;
   };
 
@@ -34,12 +24,22 @@ const RegistrationForm = () => {
       setErrors(validationErrors);
       return;
     }
-    // Simulate API call
-    console.log('Form submitted:', formData);
+    console.log('Form submitted:', { username, email, password });
     setSubmitted(true);
-    // Reset form if desired
-    setFormData({ username: '', email: '', password: '' });
+    // Reset form
+    setUsername('');
+    setEmail('');
+    setPassword('');
     setErrors({});
+  };
+
+  const handleChange = (setter) => (e) => {
+    setter(e.target.value);
+    // Clear error for this field
+    const fieldName = e.target.name;
+    if (errors[fieldName]) {
+      setErrors(prev => ({ ...prev, [fieldName]: null }));
+    }
   };
 
   if (submitted) {
@@ -63,8 +63,8 @@ const RegistrationForm = () => {
             type="text"
             name="username"
             id="username"
-            value={formData.username}
-            onChange={handleChange}
+            value={username}
+            onChange={handleChange(setUsername)}
             className={`shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline ${
               errors.username ? 'border-red-500' : ''
             }`}
@@ -80,8 +80,8 @@ const RegistrationForm = () => {
             type="email"
             name="email"
             id="email"
-            value={formData.email}
-            onChange={handleChange}
+            value={email}
+            onChange={handleChange(setEmail)}
             className={`shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline ${
               errors.email ? 'border-red-500' : ''
             }`}
@@ -97,8 +97,8 @@ const RegistrationForm = () => {
             type="password"
             name="password"
             id="password"
-            value={formData.password}
-            onChange={handleChange}
+            value={password}
+            onChange={handleChange(setPassword)}
             className={`shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline ${
               errors.password ? 'border-red-500' : ''
             }`}
