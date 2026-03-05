@@ -1,6 +1,6 @@
 /* global describe, test, expect, jest */
 import { render, screen, fireEvent } from '@testing-library/react';
-import TodoList from './components/TodoList';
+import TodoList from '../components/TodoList';
 
 describe('TodoList', () => {
   test('renders initial todos', () => {
