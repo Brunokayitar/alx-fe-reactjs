@@ -3,7 +3,7 @@ import { AuthProvider } from './context/AuthContext';
 import Home from './components/Home';
 import Login from './components/Login';
 import Profile from './components/Profile';
-import Post from './components/Post';
+import BlogPost from './components/BlogPost';
 import ProtectedRoute from './components/ProtectedRoute';
 
 function App() {
@@ -13,7 +13,7 @@ function App() {
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/login" element={<Login />} />
-          <Route path="/post/:id" element={<Post />} />
+          <Route path="/blog/:id" element={<BlogPost />} />
           <Route
             path="/profile/*"
             element={

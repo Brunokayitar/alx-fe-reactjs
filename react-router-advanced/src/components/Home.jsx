@@ -7,9 +7,9 @@ const Home = () => {
       <p>Welcome to the advanced routing demo.</p>
       <ul className="mt-4 space-y-2">
         <li><Link to="/profile" className="text-blue-500">Go to Profile (Protected)</Link></li>
-        <li><Link to="/post/1" className="text-blue-500">View Post 1 (Dynamic)</Link></li>
-        <li><Link to="/post/2" className="text-blue-500">View Post 2</Link></li>
-        <li><Link to="/post/3" className="text-blue-500">View Post 3</Link></li>
+        <li><Link to="/blog/1" className="text-blue-500">View Blog Post 1 (Dynamic)</Link></li>
+        <li><Link to="/blog/2" className="text-blue-500">View Blog Post 2</Link></li>
+        <li><Link to="/blog/3" className="text-blue-500">View Blog Post 3</Link></li>
       </ul>
     </div>
   );
